@@ -47,8 +47,12 @@ class Chart extends StatelessWidget {
           children: groupedTransactionValues.map((data) {
             return Flexible(
               fit: FlexFit.tight,
-              child: Chartbar(data['day'].toString(), (data['amount']) as double,
-                totalSpending == 0.0? 0.0:   (data['amount'] as double) / totalSpending),
+              child: Chartbar(
+                  data['day'].toString(),
+                  (data['amount']) as double,
+                  totalSpending == 0.0
+                      ? 0.0
+                      : (data['amount'] as double) / totalSpending),
             );
           }).toList(),
         ),

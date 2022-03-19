@@ -1,17 +1,17 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, sized_box_for_whitespace, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import '../models/transaction.dart';
 import 'package:intl/intl.dart';
 
-// ignore: use_key_in_widget_constructors
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  TransactionList(this.transactions);
+  final Function deleteTx;
+  TransactionList(this.transactions, this.deleteTx);
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 500,
       child: transactions.isEmpty
           ? Column(
               children: [
@@ -32,10 +32,11 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
-                  margin: EdgeInsets.symmetric(vertical: 8,horizontal: 5),
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                   elevation: 5,
                   child: ListTile(
-                    //can be replaced with container with decoration boxDecoration shape: boxshape.circle with heigh = width
+                    //can be replaced with container with decoration boxDecoration
+                    //shape: boxshape.circle with heigh = width
                     leading: CircleAvatar(
                       radius: 30,
                       child: Padding(
@@ -48,8 +49,12 @@ class TransactionList extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     subtitle: Text(
-                      DateFormat.yMMMd().format(transactions[index].date)),
-                      //trailing: ,
+                        DateFormat.yMMMd().format(transactions[index].date)),
+                    trailing: IconButton(
+                      onPressed: () => deleteTx(transactions[index].id),
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                    ),
                   ),
                 );
                 // return Card(
