@@ -100,20 +100,20 @@ class _MyHomePageState extends State<MyHomePage> {
     print('build() MyHomePageState');
     final mediaQuery = MediaQuery.of(context);
     final _isLandscape = mediaQuery.orientation == Orientation.landscape;
-    // final PreferredSizeWidget appBar = Platform.isIOS
-    //     ? CupertinoNavigationBar(
-    //         middle: Text('Personal Expenses'),
-    //         trailing: Row(
-    //           children: [
-    //             GestureDetector(
-    //               child: Icon(CupertinoIcons.add),
-    //               onTap: () => _startAddNewTransaction(context),
-    //             )
-    //           ],
-    //         ),
-    //       )
-    // :
-    final appBar = AppBar(
+    final dynamic appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text('Personal Expenses'),
+            trailing: Row(
+              children: [
+                GestureDetector(
+                  child: Icon(CupertinoIcons.add),
+                  onTap: () => _startAddNewTransaction(context),
+                )
+              ],
+            ),
+          )
+    :
+     AppBar(
       title: Text(
         'Personal Expenses',
         style: TextStyle(fontFamily: 'Open Sans'),
