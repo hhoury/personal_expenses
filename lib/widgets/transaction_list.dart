@@ -10,13 +10,14 @@ class TransactionList extends StatelessWidget {
   TransactionList(this.transactions, this.deleteTx);
   @override
   Widget build(BuildContext context) {
+    print('build() TransactionList');
     return transactions.isEmpty
         ? LayoutBuilder(builder: ((context, constraints) {
             return Column(
               children: [
                 Text('No Transactions Added Yet!',
                     style: Theme.of(context).textTheme.titleMedium),
-                SizedBox(
+               const SizedBox(
                   height: 20,
                 ),
                 Container(
@@ -53,14 +54,14 @@ class TransactionList extends StatelessWidget {
                   trailing: MediaQuery.of(context).size.width > 460
                       ? TextButton.icon(
                           onPressed: () => deleteTx(transactions[index].id),
-                          icon: Icon(Icons.delete),
+                          icon: const  Icon(Icons.delete),
                           style: TextButton.styleFrom(
                               primary: Theme.of(context).errorColor),
-                          label: Text('Delete'),
+                          label: const Text('Delete'),
                         )
                       : IconButton(
                           onPressed: () => deleteTx(transactions[index].id),
-                          icon: Icon(Icons.delete),
+                          icon: const Icon(Icons.delete),
                           color: Theme.of(context).errorColor,
                         ),
                 ),
