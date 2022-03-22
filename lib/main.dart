@@ -11,9 +11,9 @@ import 'models/transaction.dart';
 
 void main() {
   //prevent landscape mode
-    // WidgetsFlutterBinding.ensureInitialized();
-    // SystemChrome.setPreferredOrientations(
-    //     [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //     [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
 
   runApp(MyApp());
 }
@@ -95,6 +95,41 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  List<Widget> _buildLandscapeContent(MediaQueryData mediaQuery, AppBar appBar,Widget transactionList) {
+    return [Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Show Chart'),
+        Switch.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            }),
+      ],
+    ),_showChart
+                ? Container(
+                    height: (mediaQuery.size.height -
+                            appBar.preferredSize.height -
+                            mediaQuery.padding.top) *
+                        0.7,
+                    child: Chart(_recentTransactions),
+                  )
+                : transactionList];
+  }
+
+  List<Widget> _buildPortraitContent(MediaQueryData mediaQuery, AppBar appBar,Widget transactionList) {
+    return [Container(
+      height: (mediaQuery.size.height -
+              appBar.preferredSize.height -
+              mediaQuery.padding.top) *
+          0.3,
+      child: Chart(_recentTransactions),
+    ),transactionList];
+  }
+
   @override
   Widget build(BuildContext context) {
     print('build() MyHomePageState');
@@ -112,18 +147,17 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           )
-    :
-     AppBar(
-      title: Text(
-        'Personal Expenses',
-        style: TextStyle(fontFamily: 'Open Sans'),
-      ),
-      actions: [
-        IconButton(
-            onPressed: () => _startAddNewTransaction(context),
-            icon: Icon(Icons.add))
-      ],
-    );
+        : AppBar(
+            title: Text(
+              'Personal Expenses',
+              style: TextStyle(fontFamily: 'Open Sans'),
+            ),
+            actions: [
+              IconButton(
+                  onPressed: () => _startAddNewTransaction(context),
+                  icon: Icon(Icons.add))
+            ],
+          );
 
     final transactionListWidget = Container(
       height: (mediaQuery.size.height -
@@ -138,40 +172,11 @@ class _MyHomePageState extends State<MyHomePage> {
         // mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          if (_isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Show Chart'),
-                Switch.adaptive(
-                    activeColor: Theme.of(context).accentColor,
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    }),
-              ],
-            ),
-          if (!_isLandscape)
-            Container(
-              height: (mediaQuery.size.height -
-                      appBar.preferredSize.height -
-                      mediaQuery.padding.top) *
-                  0.3,
-              child: Chart(_recentTransactions),
-            ),
-          if (!_isLandscape) transactionListWidget,
-          if (_isLandscape)
-            _showChart
-                ? Container(
-                    height: (mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.7,
-                    child: Chart(_recentTransactions),
-                  )
-                : transactionListWidget
+          if (_isLandscape) ..._buildLandscapeContent(mediaQuery, appBar,transactionListWidget),
+          if (!_isLandscape) ..._buildPortraitContent(mediaQuery, appBar,transactionListWidget),
+          // if (!_isLandscape) transactionListWidget,
+          // if (_isLandscape)
+            
         ],
       ),
     );
