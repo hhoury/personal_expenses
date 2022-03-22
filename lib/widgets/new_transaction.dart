@@ -7,16 +7,48 @@ import 'package:intl/intl.dart';
 class NewTransaction extends StatefulWidget {
   final Function addTrx;
   // ignore: use_key_in_widget_constructors
-  NewTransaction(this.addTrx);
+  NewTransaction(this.addTrx){
+    print('Constructor NewTransaction Widget');
+  }
 
   @override
-  State<NewTransaction> createState() => _NewTransactionState();
+  State<NewTransaction> createState(){
+    print('createState NewTransaction Widget');
+    return _NewTransactionState();
+    }
 }
 
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+
+  _NewTransactionState(){
+    print('constructor _NewTransactionState');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    //often used to make http requests and load data from server/database
+    print('initState()');
+    super.initState();
+    
+  }
+
+  @override
+  void didUpdateWidget(NewTransaction oldWidget) {
+    // TODO: implement didUpdateWidget
+    print('didUpdateWidget()');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    print('dispose()');
+    super.dispose();
+  }
 
   void _submitData() {
     if (_amountController.text.isEmpty) {
