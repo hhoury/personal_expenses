@@ -48,7 +48,9 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+//mixin .. 'with' className
+//like extending a class,add feature from class to add to urs without fully inheriting the class
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   // String titleInput;
 
   final List<Transaction> _userTransactions = [
@@ -128,6 +130,28 @@ class _MyHomePageState extends State<MyHomePage> {
           0.3,
       child: Chart(_recentTransactions),
     ),transactionList];
+  }
+
+
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addObserver(this);
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+  }
+  //clear listeners to lifecyclechanges 
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
